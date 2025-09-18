@@ -1,20 +1,27 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from "react";
+
+// Import your Arabic screens
+import ArabicMainPage from "./app/ArabicPages/ArabicMainPage";
+import ArabicAlphabetsScreen from "./app/ArabicPages/ArabicAlphabetsScreen";
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+  const [screen, setScreen] = useState("ArabicModule");
+  const [params, setParams] = useState({});
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+  // Helper function to navigate
+  const navigate = (nextScreen, nextParams = {}) => {
+    setScreen(nextScreen);
+    setParams(nextParams);
+  };
+
+  // Arabic module navigation
+  if (screen === "ArabicModule") {
+    return <ArabicMainPage onNext={(p) => navigate(p.screen)} />;
+  }
+
+  if (screen === "ArabicAlphabetsScreen") {
+    return <ArabicAlphabetsScreen onBack={() => navigate("ArabicModule")} />;
+  }
+
+  return null;
+}
